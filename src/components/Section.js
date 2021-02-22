@@ -71,7 +71,8 @@ class Personal extends React.Component {
                 <h2>{this.props.name}</h2>
                 <button onClick={() => this.handleClick()} className="functional-button">+</button>
               </div>
-              {visible ? <input placeholder="Press Enter to Add" onChange={(e) => this.handleChange(e)} autoFocus onKeyPress={(e) => this.handleSubmit(e)}/> : null}              <ul>
+              {visible ? <input placeholder="Press Enter to Add" onChange={(e) => this.handleChange(e)} autoFocus onKeyPress={(e) => this.handleSubmit(e)}/> : null}
+              <ul>
                   {array.map((item, index) => {
                       return (
                         <li key={index}>
