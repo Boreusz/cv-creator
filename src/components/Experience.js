@@ -9,24 +9,48 @@ class Experience extends React.Component {
     this.state = {
       workFormVisible: false,
       workFormOpenBttn: "+",
+      workValues: [ "", "", "", "", "", ""],
       workData: [],
       schoolFormVisible: false,
       schoolFormOpenBttn: "+",
+      schoolValues: ["", "", "", ""],
       schoolData: []
     }
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
-  handleSubmit(){
-    return console.log("1");
-  }
-  handleChange(e, number, target){
 
-      let items = this.state.schoolValues;
-      items[number] = e.target.value;
+  handleSubmit( target ){
+    if(target === "work"){
+      let newValue = Object.assign({}, this.state.workValues)
       this.setState({
-      schoolValues: items,
+        workData: this.state.workData.concat(newValue),
+      })
+    } else {
+      let newValue = Object.assign({}, this.state.schoolValues)
+      this.setState({
+        schoolData: this.state.schoolData.concat(newValue),
       })
     }
-
+    console.log(this.state.schoolData)
+    this.clearValues();
+    console.log(this.state.workData)
+  }
+  handleChange(value, number, target){
+    if(target === "work"){
+      let items = this.state.workValues;
+      items[number] = value;
+      this.setState({
+        workValues: items,
+      })
+    } else {
+      let items = this.state.schoolValues;
+      items[number] = value;
+      this.setState({
+        shoolValues: items,
+      })
+    }
+  }
   handleVisibility(name){
     if(name === "work"){
       if(this.state.workFormVisible === false){
@@ -44,9 +68,10 @@ class Experience extends React.Component {
         this.closeSchoolForm();
         this.closeWorkForm();
       }
-      this.clearData();
+      this.clearValues();
     }
   }
+
   openWorkForm(){
     this.setState({
       workFormVisible: true,
@@ -71,29 +96,28 @@ class Experience extends React.Component {
       schoolFormOpenBttn: "+"
     })
   }
-  clearData(){
+  clearValues(){
     this.setState({
       workValues: [ "", "", "", "", "", ""],
       schoolValues: ["", "", "", ""],
     })
   }
+
   render(){
-    let {
-      workFormVisible, workFormOpenBttn, workValues, workData,
-      schoolFormVisible, schoolFormOpenBttn, schoolValues, schoolData} = this.state
-    return(
+    const {workFormVisible, workFormOpenBttn, workValues, workData, schoolFormVisible, schoolFormOpenBttn, schoolValues, schoolData} = this.state
+      return(
       <div id="exp">
         <div className="personal-header">
           <h2>Work Experience</h2>
           <button className="functional-button darker" onClick={() => this.handleVisibility("work")}>{workFormOpenBttn}</button>
         </div>
-        {workFormVisible ? <WorkForm submit={this.handleSubmit}/> : null}
+        {workFormVisible ? <WorkForm change={this.handleChange} submit={this.handleSubmit} workValues={workValues}/> : null}
         <List array={workData} category="work"/>
         <div className="personal-header">
           <h2>Academic Background</h2>
           <button className="functional-button darker" onClick={() => this.handleVisibility("school")}>{schoolFormOpenBttn}</button>
         </div>
-        {schoolFormVisible ? <SchoolForm submit={this.handleSubmit}/> :  null}
+        {schoolFormVisible ? <SchoolForm change={this.handleChange} submit={this.handleSubmit} schoolValues={schoolValues}/> :  null}
         <List array={schoolData} category="school"/>
       </div>
     )

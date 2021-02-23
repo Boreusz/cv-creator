@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 
 
 class List extends React.Component {
-  constructor(props){
-    super(props)
-  }
   render(){
-    if(this.props.category === "work"){
+    let {array, category} = this.props;
+    console.log(array);
+    if(category === "work"){
         return(
             <div id="work_exp-list">
-              {this.props.array.map((item, index) => {
+              {array.map((item, index) => {
                 return (
                   <div key={"w" + index}>
                     <h3>{item[0]}</h3>
@@ -23,7 +22,7 @@ class List extends React.Component {
     }else{
         return(
             <div id="school_exp-list">
-              {this.props.array.map((item, index) => {
+              {array.map((item, index) => {
                 return (
                   <div key={"s" + index}>
                     <h3>{item[0]}</h3>
