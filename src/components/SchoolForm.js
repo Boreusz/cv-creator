@@ -1,25 +1,19 @@
 import React, { Component } from 'react';
 
 class SchoolForm extends React.Component {
-  constructor(props){
-    super(props);
-    this.state ={
-      schoolValues: ["", "", "", ""],
-    }
+  handleSubmit(e){
+    e.preventDefault();
+    this.props.submit("school")
   }
   handleChange(e, number){
-   let items = this.state.schoolValues;
-  items[number] = e.target.value;
-  this.setState({
-    schoolValues: items,
-  })
+    this.props.change(e.target.value, number, "school")
   }
 
   render(){
-    let {schoolValues} = this.state;
+    let {schoolValues} = this.props;
     return(
       <div id="school-form">
-          <form onSubmit={this.props.submit}>
+          <form onSubmit={(e) => this.handleSubmit(e)}>
               <ul>
                 <label>Collage Name:</label><br/>
                 <input type="text" value={schoolValues[0]} onChange={(e) => this.handleChange(e, 0)}/>

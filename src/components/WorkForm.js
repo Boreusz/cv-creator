@@ -1,25 +1,18 @@
 import React, { Component } from 'react';
-import SchoolForm from './SchoolForm';
 
 class WorkForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      workValues: [ "", "", "", "", "", ""]
-    }
+  handleSubmit(e){
+    e.preventDefault();
+    this.props.submit("work")
   }
   handleChange(e, number){
-    let items = this.state.workValues;
-    items[number] = e.target.value;
-    this.setState({
-      workValues: items,
-    })
+    this.props.change(e.target.value, number, "work")
   }
   render(){
-    let {workValues} = this.state;
+    let {workValues} = this.props;
     return(
       <div id="work-form">
-          <form onSubmit={this.props.submit}>
+          <form onSubmit={(e) => this.handleSubmit(e)}>
             <ul>
               <li>
                 <label>Work Title:</label><br/>
