@@ -18,6 +18,7 @@ class Experience extends React.Component {
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this)
   }
 
   handleSubmit( target ){
@@ -32,9 +33,9 @@ class Experience extends React.Component {
         schoolData: this.state.schoolData.concat(newValue),
       })
     }
-    console.log(this.state.schoolData)
+    this.closeWorkForm();
+    this.closeSchoolForm();
     this.clearValues();
-    console.log(this.state.workData)
   }
   handleChange(value, number, target){
     if(target === "work"){
@@ -69,6 +70,21 @@ class Experience extends React.Component {
         this.closeWorkForm();
       }
       this.clearValues();
+    }
+  }
+  handleDelete(index, target){
+    console.log(index)
+    console.log(target)
+    if(target === "work"){
+      this.state.workData.splice(parseInt(index), 1)
+      this.setState({
+        workData: this.state.workData,
+      })
+    }else{
+      this.state.schoolData.splice(parseInt(index), 1)
+      this.setState({
+        schoolData: this.state.schoolData
+      })
     }
   }
 
@@ -112,13 +128,13 @@ class Experience extends React.Component {
           <button className="functional-button darker" onClick={() => this.handleVisibility("work")}>{workFormOpenBttn}</button>
         </div>
         {workFormVisible ? <WorkForm change={this.handleChange} submit={this.handleSubmit} workValues={workValues}/> : null}
-        <List array={workData} category="work"/>
+        <List array={workData} delete={this.handleDelete} category="work"/>
         <div className="personal-header">
           <h2>Academic Background</h2>
           <button className="functional-button darker" onClick={() => this.handleVisibility("school")}>{schoolFormOpenBttn}</button>
         </div>
-        {schoolFormVisible ? <SchoolForm change={this.handleChange} submit={this.handleSubmit} schoolValues={schoolValues}/> :  null}
-        <List array={schoolData} category="school"/>
+        {schoolFormVisible ? <SchoolForm change={this.handleChange} schoolValues={schoolValues}/> :  null}
+        <List array={schoolData} delete={this.handleDelete} category="school"/>
       </div>
     )
   }
